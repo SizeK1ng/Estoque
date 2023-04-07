@@ -33,14 +33,24 @@ EntraUser.place(x=110, y=110)
 SenhaLabel = Label(Rightt, text="Senha:", font=("Century Gothic", 20), bg="LightBlue4", fg="White")
 SenhaLabel.place(x=5, y=150)
 
-SenhaUser = ttk.Entry(Rightt, width=20)
+SenhaUser = ttk.Entry(Rightt, width=20, show="*")
 SenhaUser.place(x=110, y=160)
 
-#botao
+#botoes
 LoginButton = ttk.Button(Rightt, text= "Logar", width=20)
 LoginButton.place(x=200, y=250)
 
-RegisterButton = ttk.Button(Rightt, text= "Registrar", width=20)
+def Register():
+    #remove widgets de login
+    LoginButton.place(x=50000)
+    RegisterButton.place(x=50000)
+#widgets de cadastro
+    NomeLabel = Label(Rightt, text="Nome: ", font=("Century Gothic", 20), bg="LightBlue4", fg="white")
+    NomeLabel.place(x=5 , y=5)
+
+RegisterButton = ttk.Button(Rightt, text= "Registrar", width=20, command = Register)
 RegisterButton.place(x=68, y=250)
+
+
 
 janela.mainloop()
