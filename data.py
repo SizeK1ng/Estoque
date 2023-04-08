@@ -13,4 +13,15 @@ CREATE TABLE IF NOT EXISTS UsuariosData (
 );   
 ''')
 
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Estoque (
+    Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    OwnerId INTEGER NOT NULL,
+    Produto TEXT NOT NULL,
+    Quantidade INTEGER NOT NULL,
+    FOREIGN KEY (OwnerId) REFERENCES UsuariosData(Id)
+);
+''')
+
+
 print("Banco de Dados Conectado")

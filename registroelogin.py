@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import data
+import pandas as ad
+import win32com.client as win32
+
 # cria janela
 janela = Tk()
 janela.title("Estoque HotWheels- Acesso")
@@ -64,7 +67,8 @@ def Register():
     # remove widgets de login
     LoginButton.place(x=50000)
     RegisterButton.place(x=50000)
-# widgets de cadastro
+
+    # widgets de cadastro
     NomeLabel = Label(Rightt, text="Nome: ", font=(
         "Century Gothic", 20), bg="LightBlue4", fg="white")
     NomeLabel.place(x=5, y=60)
@@ -86,6 +90,9 @@ def Register():
             data.conn.commit()
             #caixa de mensagem
             messagebox.showinfo(title="Registro info", message="Registrado com sucesso")
+    
+    # botão de cadastro
+    
 
     Register = ttk.Button(Rightt, text="Registrar", width=20, command= RegisterToDataBase)
     Register.place(x=200, y=250)
