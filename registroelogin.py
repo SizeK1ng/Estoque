@@ -26,7 +26,6 @@ LogoLabel.place(x=50, y=100)
 
 UserLabel = Label(Rightt, text="Nick:", font=("Century Gothic", 20), bg="LightBlue4", fg="White")
 UserLabel.place(x=5, y=100)
-
 # entrada user e senha
 EntraUser = ttk.Entry(Rightt, width=20)
 EntraUser.place(x=110, y=110)
@@ -38,10 +37,28 @@ SenhaLabel.place(x=5, y=150)
 SenhaUser = ttk.Entry(Rightt, width=20, show="*")
 SenhaUser.place(x=110, y=160)
 
-# botoes
-LoginButton = ttk.Button(Rightt, text="Logar", width=20)
-LoginButton.place(x=200, y=250)
+def login():
+    User = EntraUser.get()
+    Pass = SenhaUser.get()
 
+    data.cursor.execute("""
+    SELECT * FROM UsuariosData
+    WHERE (User = ? AND Password = ?)
+    """, (User, Pass))
+    print("Selecionado")
+    #verifica o usuario
+    VerifyLogin = data.cursor.fetchone()
+    try: 
+
+        if (User in VerifyLogin and Pass in VerifyLogin):
+            messagebox.showinfo(title="Login", message="Acesso Confirmado!")
+    except:
+    
+        messagebox.showinfo(title="Login", message="Acesso Negado, Usuario não encontrado!")  
+
+#Botoes
+LoginButton = ttk.Button(Rightt, text="Logar", width=20, command=login)
+LoginButton.place(x=200, y=250)
 
 def Register():
     # remove widgets de login
@@ -59,12 +76,16 @@ def Register():
         Nome = NomeEntry.get()
         Nick = EntraUser.get()
         Senha = SenhaUser.get()
-        data.cursor.execute('''
-        INSERT INTO UsuariosData(Name, User, Password) VALUES(?, ?, ?)
-        ''', (Nome, Nick, Senha)) 
-        data.conn.commit()
-        #caixa de mensagem
-        messagebox.showinfo(title="Registro info", message="Registrado com sucesso")
+        #if para obrigar a prencher todos campos antes de entra no db
+        if (Nome == "" or Nick == "" or Senha == ""):
+            messagebox.showerror(title="Erro no Registro", message="Preencha todos os campos!")
+        else: 
+            data.cursor.execute('''
+            INSERT INTO UsuariosData(Name, User, Password) VALUES(?, ?, ?)
+            ''', (Nome, Nick, Senha)) 
+            data.conn.commit()
+            #caixa de mensagem
+            messagebox.showinfo(title="Registro info", message="Registrado com sucesso")
 
     Register = ttk.Button(Rightt, text="Registrar", width=20, command= RegisterToDataBase)
     Register.place(x=200, y=250)
@@ -83,9 +104,7 @@ def Register():
     Back.place(x=68, y=250)
 
 
-RegisterButton = ttk.Button(
-    Rightt, text="Registrar", width=20, command=Register)
+RegisterButton = ttk.Button(Rightt, text="Registrar", width=20, command=Register)
 RegisterButton.place(x=68, y=250)
-
 
 janela.mainloop()
