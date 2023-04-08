@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+import data
 # cria janela
 janela = Tk()
 janela.title("Estoque HotWheels- Acesso")
@@ -54,7 +55,18 @@ def Register():
     NomeEntry = ttk.Entry(Rightt, width=20)
     NomeEntry.place(x=110, y=70)
 
-    Register = ttk.Button(Rightt, text="Registrar", width=20)
+    def RegisterToDataBase():
+        Nome = NomeEntry.get()
+        Nick = EntraUser.get()
+        Senha = SenhaUser.get()
+        data.cursor.execute('''
+        INSERT INTO UsuariosData(Name, User, Password) VALUES(?, ?, ?)
+        ''', (Nome, Nick, Senha)) 
+        data.conn.commit()
+        #caixa de mensagem
+        messagebox.showinfo(title="Registro info", message="Registrado com sucesso")
+
+    Register = ttk.Button(Rightt, text="Registrar", width=20, command= RegisterToDataBase)
     Register.place(x=200, y=250)
 
     def BackToLogin():
